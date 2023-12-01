@@ -1,0 +1,18 @@
+ARG UBUNTU_VERSION=22.04
+
+FROM aprimediet/ubuntu:${UBUNTU_VERSION}
+LABEL maintainer="<Aditya Prima> aprimediet@gmail.com"
+
+# INSTALL NGINX
+RUN --mount=type=cache,target=/var/cache/apt/archives \
+    apt -y update && apt -y upgrade && \
+    apt -y install nginx openssl
+
+# COPY CONFIGURATION FILES
+ADD ./etc /etc
+ADD ./usr /usr
+
+RUN chown -R www-data:www-data /usr/www
+RUN apt -y clean
+
+EXPOSE 80 443
