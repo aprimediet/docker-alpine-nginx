@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION=22.04
+ARG UBUNTU_VERSION=latest
 
 FROM aprimediet/ubuntu:${UBUNTU_VERSION}
 LABEL maintainer="<Aditya Prima> aprimediet@gmail.com"
