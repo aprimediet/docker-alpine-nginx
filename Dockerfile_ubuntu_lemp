@@ -1,0 +1,25 @@
+ARG PHP_VERSION=8.2
+
+FROM aprimediet/php:${PHP_VERSION}-ubuntu-mysql
+LABEL maintainer="<Aditya Prima> aprimediet@gmail.com"
+
+# INSTALL NGINX
+RUN --mount=type=cache,target=/var/cache/apt/archives \
+    apt -y update && apt -y upgrade
+
+RUN --mount=type=cache,target=/var/cache/apt/archives \
+    apt -y install nginx openssl
+
+# REMOVE sites-available and sites-enabled
+# BECAUSE WE ARE USING /etc/nginx/conf.d FOR VHOSTS
+RUN rm -rf /etc/nginx/sites-available && rm -rf /etc/nginx/sites-enabled
+
+# COPY CONFIGURATION FILES
+ADD ./base/etc /etc
+ADD ./php/etc /etc
+ADD ./php/usr /usr
+
+RUN chown -R www-data:www-data /usr/www
+RUN apt -y clean
+
+EXPOSE 80 443

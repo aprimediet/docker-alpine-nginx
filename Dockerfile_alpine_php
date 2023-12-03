@@ -1,12 +1,7 @@
-ARG ALPINE_VERSION=3.18
+ARG PHP_VERSION=5.6
 
-FROM aprimediet/alpine:${ALPINE_VERSION}
+FROM aprimediet/php:${PHP_VERSION}-alpine
 LABEL maintainer="<Aditya Prima> aprimediet@gmail.com"
-
-# Add user and group www-data
-RUN addgroup -g 1010 www-data; exit 0
-RUN adduser -u 1010 -D -H -h /usr/www -G www-data www-data
-RUN adduser www-data tty
 
 # Install nginx
 RUN --mount=type=cache,target=/var/cache/apk \
@@ -15,7 +10,8 @@ RUN --mount=type=cache,target=/var/cache/apk \
 
 # COPY CONFIGURATION FILES
 ADD ./base/etc /etc
-ADD ./base/usr /usr
+ADD ./php/etc /etc
+ADD ./php/usr /usr
 
 # CLEAN CACHE
 RUN rm -vrf /var/cache/apk/*

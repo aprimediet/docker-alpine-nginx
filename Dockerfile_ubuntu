@@ -9,8 +9,8 @@ RUN --mount=type=cache,target=/var/cache/apt/archives \
     apt -y install nginx openssl
 
 # COPY CONFIGURATION FILES
-ADD ./etc /etc
-ADD ./usr /usr
+ADD ./base/etc /etc
+ADD ./base/usr /usr
 
 RUN chown -R www-data:www-data /usr/www
 RUN apt -y clean
